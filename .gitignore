@@ -1,0 +1,15 @@
+# Virtual Environments
+venv/
+.venv/
+__pycache__/
+
+# Local Environment Variables / Secrets
+.env
+
+# Local SQLite Database
+*.db
+pantry.db
+
+# OS System Files
+.DS_Store
+Thumbs.db
