@@ -6,6 +6,27 @@ import pandas as pd
 import requests
 import streamlit as st
 
+import os
+import threading
+import uvicorn
+
+if hasattr(st, "secrets"):
+    for key, value in st.secrets.items():
+        os.environ[key] = str(value)
+
+@st.cache_resource
+def start_background_backend():
+    try:
+        from main import app as fastapi_app
+        thread = threading.Thread(
+            target=lambda: uvicorn.run(fastapi_app, host="127.0.0.1", port=8000, log_level="warning"),
+            daemon=True
+        )
+        thread.start()
+    except Exception as e:
+        print(f"Backend background start error: {e}")
+
+start_background_backend()
 
 DEFAULT_API_URL = "http://127.0.0.1:8000"
 DIETARY_PROFILES = [
